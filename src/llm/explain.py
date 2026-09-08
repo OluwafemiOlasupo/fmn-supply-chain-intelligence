@@ -15,7 +15,10 @@ analytical layer.
 
 import os
 
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()  # reads .env in the project root (local dev); no-op if it doesn't exist (e.g. Kaggle/deployed, where the key is set another way)
 
 DEEPSEEK_BASE_URL = "https://api.deepseek.com"
 DEEPSEEK_MODEL = "deepseek-chat"
