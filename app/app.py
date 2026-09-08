@@ -33,7 +33,7 @@ def load_data(path: str):
 
 
 def risk_color(tier: str) -> str:
-    return {"High": "🔴", "Medium": "🟡", "Low": "🟢", "Overstock": "🔵"}.get(tier, "⚪")
+    return {"High": "🔴", "Medium": "🟡", "Low": "🟢", "Overstock": "🔵", "Unknown": "⚫"}.get(tier, "⚪")
 
 
 def main():
@@ -72,7 +72,7 @@ def main():
     fcol1, fcol2, fcol3 = st.columns(3)
     with fcol1:
         tier_filter = st.multiselect(
-            "Risk tier", options=["High", "Medium", "Low", "Overstock"],
+            "Risk tier", options=["High", "Medium", "Low", "Overstock", "Unknown"],
             default=["High", "Medium"],
         )
     with fcol2:
@@ -93,7 +93,7 @@ def main():
         filtered = filtered[filtered["confidence"].isin(confidence_filter)]
 
     filtered = filtered.sort_values(
-        "risk_tier", key=lambda c: c.map({"High": 0, "Medium": 1, "Low": 2, "Overstock": 3})
+        "risk_tier", key=lambda c: c.map({"High": 0, "Medium": 1, "Low": 2, "Overstock": 3, "Unknown": 4})
     )
 
     display_df = filtered[[

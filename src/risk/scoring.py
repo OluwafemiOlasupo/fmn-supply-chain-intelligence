@@ -29,6 +29,18 @@ FLOW_MISMATCH_CONFIDENCE_THRESHOLD = 0.15  # >15% of history with flow inconsist
 
 
 def risk_tier(coverage_ratio: float) -> str:
+    """
+    NOTE: coverage_ratio can be NaN (0 stock / 0 forecasted demand — a SKU
+    with no history and no stock) or inf (positive stock / 0 forecasted
+    demand — genuinely overstocked relative to zero expected demand).
+    NaN must NOT silently fall through to the final 'else' branch below,
+    since every comparison against NaN evaluates False in Python, which
+    would wrongly label it 'Overstock' and hide a SKU that may actually
+    need review. inf is handled correctly by the normal comparisons
+    (inf > overstock_min is True) and legitimately means Overstock.
+    """
+    if pd.isna(coverage_ratio):
+        return "Unknown"
     if coverage_ratio < RISK_TIER_THRESHOLDS["high_max"]:
         return "High"
     elif coverage_ratio < RISK_TIER_THRESHOLDS["medium_max"]:
