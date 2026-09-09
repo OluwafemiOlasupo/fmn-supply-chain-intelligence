@@ -16,7 +16,7 @@ risk with high confidence. An LLM (DeepSeek) sits strictly downstream of this an
 layer: it only explains evidence that's already been computed, never decides risk itself
 and never invents numbers.
 
-## Quick start
+## Quick start (Local Run)
 
 ```bash
 python -m venv venv
