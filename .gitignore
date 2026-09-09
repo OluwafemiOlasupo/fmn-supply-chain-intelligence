@@ -5,5 +5,4 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 .streamlit/secrets.toml
-data/raw/*.csv
 !data/raw/.gitkeep
