@@ -92,6 +92,28 @@ generated on-demand (button click in the app), not eagerly for every SKU on page
 Grounded Q&A uses a deterministic intent-classification + retrieval step before any
 natural-language answer is generated — no vector RAG, per the small structured dataset.
 
+## Assumptions
+
+- Exact duplicate `(date, sku_id)` rows are accidental double-entries; first occurrence
+  kept, not averaged or summed.
+- Missing `units_sold` / `closing_stock` are treated as missing, never imputed as zero,
+  anywhere in the pipeline — this is the exact mistake that produced the original EDA's
+  incorrect stockout figures.
+- `lead_time_days` is treated as each established SKU's fixed replenishment horizon
+  (it is fixed in the data for all established SKUs). For new SKUs it is not fixed in the
+  data, so only the most recently recorded value is used, alongside the hardcoded
+  Low-confidence flag.
+- Inventory-flow mismatches are surfaced as a confidence signal, not silently corrected —
+  root cause is unknown, so no fix is assumed.
+
+## Deployment
+
+This app is run locally (`streamlit run app/app.py`) rather than deployed to a public URL.
+See **Quick start** above for setup. No cloud deployment was pursued given the assessment
+time budget; the app has no dependency that would block deployment to Streamlit Community
+Cloud or similar if needed later — it would only require setting `DEEPSEEK_API_KEY` as a
+platform secret instead of a local `.env` file.
+
 ## Known limitations
 
 - Root cause of the 269 inventory-flow mismatches not further investigated (deferred;
