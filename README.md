@@ -51,6 +51,9 @@ src/pipeline.py — single entry point: raw CSV -> master risk table
 app/app.py      — Streamlit dashboard
 tests/          — unit tests, including deliberately-chosen edge cases
 docs/           — data quality report, experiment log
+notebooks/      — exploratory validation trail: Step 1 data-quality checks (including the
+                  stockout-count correction), baseline vs. GBM comparison, run cell-by-cell
+                  against the raw dataset before being ported into src/
 ```
 
 ## Key decisions and why
@@ -106,13 +109,8 @@ natural-language answer is generated — no vector RAG, per the small structured
 - Inventory-flow mismatches are surfaced as a confidence signal, not silently corrected —
   root cause is unknown, so no fix is assumed.
 
-## Deployment
-
-This app is run locally (`streamlit run app/app.py`) rather than deployed to a public URL.
-See **Quick start** above for setup. No cloud deployment was pursued given the assessment
-time budget; the app has no dependency that would block deployment to Streamlit Community
-Cloud or similar if needed later — it would only require setting `DEEPSEEK_API_KEY` as a
-platform secret instead of a local `.env` file.
+## Deployment URL: 
+https://fmn-supply-chain-intelligence-fbrhcz6onmwgyqwbpxhbha.streamlit.app/
 
 ## Known limitations
 
