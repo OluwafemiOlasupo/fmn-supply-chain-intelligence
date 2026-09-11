@@ -75,7 +75,13 @@ fitted estimator.
 
 **Validation.** Chronological holdout only (last 30 days) — never a random split, since
 this is a time-series forecasting problem and a random split would leak future
-information into training.
+information into training. **Evaluation metric: WAPE** (weighted absolute percentage
+error) — chosen over plain MAE because it's scale-independent and business-readable as
+a single percentage across SKUs of very different volumes (a 50-unit MAE means something
+different for a 20-unit/day SKU than a 500-unit/day one; WAPE normalizes for that). The
+winning weekday-aware baseline scores **17.75% WAPE** on the holdout, beating a naive
+lag-1 baseline (25.23%), a plain rolling mean (21.25%), and two gradient-boosted variants
+(18.74% and 18.14%) — full comparison table in `docs/experiment_log.md`.
 
 **New / cold-start SKUs.** Never scored with their own history (12 days is too little,
 and in this dataset they also show zero replenishment and unstable lead-time data — a
