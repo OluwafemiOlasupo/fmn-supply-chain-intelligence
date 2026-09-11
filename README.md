@@ -88,12 +88,6 @@ and in this dataset they also show zero replenishment and unstable lead-time dat
 real, deeper anomaly, not just short history). They get a category-level demand proxy
 and a hardcoded Low-confidence flag instead.
 
-**Data quality.** An error was found and corrected in the original EDA handoff: stockout
-counts had wrongly treated missing `closing_stock` values as stockouts. The corrected
-figures, and the full validation trail, are in `docs/data_quality_report.md`. Inventory-
-flow mismatches (6.2% of comparable records) are surfaced as a per-SKU confidence signal
-rather than silently dropped.
-
 **LLM architecture.** The LLM (DeepSeek) receives only a precomputed, structured evidence
 dict per SKU (`src/llm/evidence.py`) — it never touches raw data and is explicitly
 instructed not to override the risk tier or confidence already assigned. Explanations are
